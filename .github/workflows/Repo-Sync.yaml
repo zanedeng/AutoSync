@@ -59,3 +59,17 @@ jobs:
             https://github.com/JDHelloWorld/jd_scripts main \
             https://${{ github.repository_owner }}:${{ secrets.ACTION_SECRET }}@github.com/zanedeng/JD-Scripts ts2js
 
+  penpot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep Random Time
+        run: sleep $(shuf -i 10-60 -n 1)
+      - uses: actions/checkout@v2
+      - name: Github ➡ Github
+        id: penpot-update
+        run: |
+          dir=$(pwd)
+          bash Scripts/Sync.sh \
+            https://github.com/penpot/penpot develop \
+            https://${{ github.repository_owner }}:${{ secrets.ACTION_SECRET }}@github.com/zanedeng/penpot develop
+          [ -f /tmp/update ] && mv /tmp/dest_repo $dir || echo "::set-output name=status::updated"
